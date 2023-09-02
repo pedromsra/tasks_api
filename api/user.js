@@ -2,13 +2,15 @@ const bcrypt = require('bcrypt-nodejs')
 
 module.exports = app => {
   const getHash = (password, callback) => {
+    console.log("OI")
     bcrypt.genSalt(10, (err, salt) => {
+      console.log("Ola")
       bcrypt.hash(password, salt, null, (err, hash) => callback(hash))
+      console.log("nao foi eu")
     })
   }
 
   const save = (req, res) => {
-    console.log(req.body)
     getHash(req.body.password, hash => {
       const password = hash
       
