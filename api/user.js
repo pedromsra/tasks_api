@@ -11,7 +11,7 @@ module.exports = app => {
   const save = (req, res) => {
     getHash(req.body.password, hash => {
       const password = hash
-      // O Erro é que o Knex está tentando acessar uma db local, enquanto roda na nuvem... preciso criar um db na nuvem para referenciar a esse db!!!!
+      
       knex('users')
       .insert({ name: req.body.name, email: req.body.email.toLowerCase(), password })
       .then(_ => res.status(204).send())
