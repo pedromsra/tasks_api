@@ -8,6 +8,7 @@ module.exports = app => {
   }
 
   const save = (req, res) => {
+    console.log("OOOOI")
     getHash(req.body.password, hash => {
       const password = hash
 
