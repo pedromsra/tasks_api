@@ -1,11 +1,12 @@
 const moment = require('moment')
+const knex = require("../knex.js")
 
 module.exports = app => {
   const getTasks = (req, res) => {
     const date = req.query.date ? req.query.date
       : moment().endOf('day').toDate()
 
-    app.db('tasks')
+    knex('tasks')
       .where({ user_id: req.user.id })
       .where('estimate_at', '<=', date)
       .orderBy('estimate_at')
@@ -20,14 +21,14 @@ module.exports = app => {
 
     req.body.user_id = req.user.id
 
-    app.db('tasks')
+    knex('tasks')
       .insert({ description: req.body.description, estimate_at: req.body.estimate_at, user_id: req.body.user_id })
       .then(_ => res.status(204).send())
       .catch(err => res.status(400).json(err))
   }
 
   const remove = (req, res) => {
-    app.db('tasks')
+    knex('tasks')
       .where({ id: req.params.id, user_id: req.user.id })
       .del()
       .then(rowsDeleted => {
@@ -42,7 +43,7 @@ module.exports = app => {
   }
 
   const updateTaskDoneAt = (req, res, done_at) => {
-    app.db('tasks')
+    knex('tasks')
       .where({ id: req.params.id, user_id: req.user.id })
       .update({ done_at })
       .then(_ => {res.status(204).send()})
@@ -50,7 +51,7 @@ module.exports = app => {
   }
 
   const toggleTask = (req, res) => {
-    app.db('tasks')
+    knex('tasks')
       .where({ id: req.params.id, user_id: req.user.id })
       .first()
       .then(task => {
