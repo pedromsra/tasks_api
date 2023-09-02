@@ -1,6 +1,7 @@
-const { authSecret } = require('../.env')
 const jwt = require('jwt-simple')
 const bcrypt = require('bcrypt-nodejs')
+
+authSecret = process.env.authSecret
 
 module.exports = app => {
   const signin = async (req, res) => {
