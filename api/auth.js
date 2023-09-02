@@ -1,6 +1,8 @@
 const jwt = require('jwt-simple')
 const bcrypt = require('bcrypt-nodejs')
 
+const knex = require("../knex.js")
+
 authSecret = process.env.authSecret
 
 module.exports = app => {
@@ -9,7 +11,7 @@ module.exports = app => {
       return res.status(400).send('Dados incompletos')
     }
 
-    const user = await app.db('users')
+    const user = await knex('users')
       .whereRaw("LOWER(email) = LOWER(?)", req.body.email)
       .first()
 
